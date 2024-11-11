@@ -54,6 +54,7 @@ python-dateutil==2.9.0.post0
 pytz==2024.2
 pywin32==227
 PyYAML==6.0.2
+python==3.9
 qdrant-client==1.12.1
 referencing==0.35.1
 regex==2024.11.6
