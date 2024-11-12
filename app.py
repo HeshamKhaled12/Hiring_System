@@ -3,7 +3,7 @@ from pathlib import Path
 from hiring_system import CVHiringSystem
 
 
-huggin_face = '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'
+huggin_face = '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'
 qdrant_url = 'https://3627359d-1a29-4061-9502-3bea64dca6c3.us-east4-0.gcp.cloud.qdrant.io:6333'
 qdrant_api = 'nBU4G05b0JnnLWiOOPVf_BNRAbOtR_6wZeTRsWHt3TDxwJSEWU578g'
 

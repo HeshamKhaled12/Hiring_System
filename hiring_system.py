@@ -31,8 +31,8 @@ class CVHiringSystem:
     self.device= 'cuda' if torch.cuda.is_available() else 'cpu'
     self.collection_name=collection_name
     self.hugging_login(hug_token)
-    self.pipeline=pipeline('text-generation',model='meta-llama/Llama-3.2-3B-Instruct',max_new_tokens=2000,device= self.device)
-    self.embedding_model= SentenceTransformer('paraphrase-mpnet-base-v2',device=self.device)
+    self.pipeline=pipeline('text-generation',model='meta-llama/Llama-3.2-3B-Instruct',max_new_tokens=2000)
+    self.embedding_model= SentenceTransformer('paraphrase-mpnet-base-v2')
 
 
   def hugging_login(self,hug_token: str) -> None:
