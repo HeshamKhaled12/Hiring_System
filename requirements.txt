@@ -1,5 +1,6 @@
 transformers
-torch==2.2.0+cu113
+torch
+torchaudio
 torchvision
 pillow
 streamlit
