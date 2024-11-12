@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 altair==5.4.1
 annotated-types==0.7.0
 anyio==4.6.2.post1
@@ -94,3 +95,20 @@ typing-extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
 watchdog==6.0.0
+=======
+transformers
+torch
+torchaudio
+torchvision
+pillow
+streamlit
+qdrant-client
+scipy
+scikit-learn
+numpy
+pandas
+pip
+sentence-transformers
+pdfplumber
+
+>>>>>>> c03a57ad35f9966e130432c7f24654e80694f7d5
