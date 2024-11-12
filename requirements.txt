@@ -10,4 +10,5 @@ numpy
 pandas
 pip
 sentence-transformers
+pdfplumber
 
