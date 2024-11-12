@@ -72,7 +72,7 @@ packaging==23.2
 pandas==2.1.2
 parso==0.8.3
 partial-json-parser==0.2.1.1.post4
-pdfplumber
+pdfminer.six==20240706
 pillow==10.4.0
 platformdirs==3.11.0
 prometheus-fastapi-instrumentator==7.0.0
@@ -93,6 +93,8 @@ Pygments==2.16.1
 python-dateutil==2.8.2
 python-dotenv==1.0.1
 pytz==2023.3.post1
+pywin32==306
+PyYAML==6.0.2
 pyzmq==25.1.1
 ray==2.37.0
 redis==5.0.1
@@ -131,5 +133,5 @@ Werkzeug==3.0.1
 xxhash==3.5.0
 yarl==1.13.1
 zipp==3.17.0
-pywin32==306; platform_system == "Windows"
 streamlit==1.25.0
+pywin32==306; platform_system == "Windows"
