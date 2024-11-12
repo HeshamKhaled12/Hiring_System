@@ -74,7 +74,6 @@ parso==0.8.3
 partial-json-parser==0.2.1.1.post4
 pdfminer.six==20200517
 pdfplumber==0.5.28
-pillow==9.5.0
 platformdirs==3.11.0
 prometheus-fastapi-instrumentator==7.0.0
 prometheus_client==0.21.0
