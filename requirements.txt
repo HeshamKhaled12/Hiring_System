@@ -134,4 +134,4 @@ Werkzeug==3.0.1
 xxhash==3.5.0
 yarl==1.13.1
 zipp==3.17.0
-streamlit==1.25.0
+streamlit==1.24.0
