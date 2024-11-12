@@ -73,7 +73,7 @@ pandas==2.1.2
 parso==0.8.3
 partial-json-parser==0.2.1.1.post4
 pdfminer.six==20240706
-pillow==10.4.0
+pillow>=7.1.0,<10.0.0
 platformdirs==3.11.0
 prometheus-fastapi-instrumentator==7.0.0
 prometheus_client==0.21.0
