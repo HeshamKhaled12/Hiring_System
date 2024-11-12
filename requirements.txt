@@ -72,7 +72,7 @@ packaging==23.2
 pandas==2.1.2
 parso==0.8.3
 partial-json-parser==0.2.1.1.post4
-pdfplumber==0.5.28
+pdfplumber
 pillow==10.4.0
 platformdirs==3.11.0
 prometheus-fastapi-instrumentator==7.0.0
@@ -133,4 +133,3 @@ yarl==1.13.1
 zipp==3.17.0
 pywin32==306; platform_system == "Windows"
 streamlit==1.25.0
-pdfminer.six
