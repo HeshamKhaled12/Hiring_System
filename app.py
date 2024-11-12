@@ -15,8 +15,12 @@ def main():
     st.write(f"Using predefined Hugging Face API Token: {huggin_face[:4]}... (hidden)")
     st.write("The system will use these API credentials to process the CVs.")
 
-    
-    collection_name = st.text_input("Enter Collection Name for Qdrant:")
+    exist_collection=st.checkbox('Use an existing collection')
+    if exist_collection:
+        collection_name= st.text_input('Enter the name of the existing Qdrant collection:')
+    else:
+        collection_name = st.text_input("Enter Collection Name for Qdrant:")
+
     if st.button("Confirm Collection Name"):
         st.success(f"Collection name '{collection_name}' confirmed.")
 
@@ -46,27 +50,34 @@ def main():
         )
         st.success("System initialized successfully.")
 
+        if exist_collection:
+            st.write('Loading existing CV data from Qdrant ...')
+            loaded_data=cv_system.qdrant_client.scroll(collection_name=collection_name,limit=100)
+            for result in loaded_data:
+                st.json(result.payload)
+            st.write('Existing data loaded successfully.')
+        else:
         
-        st.write("Extracting text from PDFs...")
-        pdf_data = cv_system.pdf_txt_extract()
-        for file in pdf_data:
-            st.write(f"Filename: {file['filename']}")
-            st.text_area('Extracted Text', file['text'], height=300)
+            st.write("Extracting text from PDFs...")
+            pdf_data = cv_system.pdf_txt_extract()
+            for file in pdf_data:
+                st.write(f"Filename: {file['filename']}")
+                st.text_area('Extracted Text', file['text'], height=300)
 
-        
-        st.write("Processing CV information...")
-        results = cv_system.getting_info_cvs(pdf_data)
-        for result in results:
-            st.json(result)
+            
+            st.write("Processing CV information...")
+            results = cv_system.getting_info_cvs(pdf_data)
+            for result in results:
+                st.json(result)
 
-        
-        cv_system.creating_json(results)
-        st.success("CV data extracted and saved successfully.")
-        
-        
-        st.write("Embedding and storing CV data in Qdrant...")
-        cv_system.embedd_and_storing_cv(results)
-        st.success("CV data embedded and stored successfully in Qdrant.")
+            
+            cv_system.creating_json(results)
+            st.success("CV data extracted and saved successfully.")
+            
+            
+            st.write("Embedding and storing CV data in Qdrant...")
+            cv_system.embedd_and_storing_cv(results)
+            st.success("CV data embedded and stored successfully in Qdrant.")
 
 
     job_desc = st.text_area("Enter the Job Description for Candidate Matching")
