@@ -6,10 +6,7 @@ streamlit
 qdrant-client==1.6.1
 scipy==1.9.3
 scikit-learn==1.1.2
-numpy==1.23.5
+numpy
 pandas==1.5.2
-flask==2.2.2
-loguru==0.6.0
-setuptools==67.7.2
 pip==24.3.1
-requests==2.28.1
+
