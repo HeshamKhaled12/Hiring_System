@@ -31,8 +31,8 @@ class CVHiringSystem:
     self.device= 'cuda' if torch.cuda.is_available() else 'cpu'
     self.collection_name=collection_name
     self.hugging_login(hug_token)
-    self.pipeline=pipeline('text-generation',model='meta-llama/Llama-3.2-3B-Instruct',max_new_tokens=2000)
-    self.embedding_model= SentenceTransformer('paraphrase-mpnet-base-v2')
+    self.pipeline=pipeline('text-generation',model='meta-llama/Llama-3.2-3B-Instruct',max_new_tokens=2000,device=self.device)
+    self.embedding_model= SentenceTransformer('paraphrase-mpnet-base-v2',device=self.device)
 
 
   def hugging_login(self,hug_token: str) -> None:
@@ -80,62 +80,61 @@ class CVHiringSystem:
      for file in data:
        filename=file["filename"]
        text=file['text']
-       file_result={}
-       prompt={
-    "Name": f"""<s>[INST] <<SYS>>
-    Extract only the full name from the following CV text. Provide the result in JSON format as shown:
-    {{
-        "Name": "<Full Name>"
-    }}
+       prompt = {
+            "Name": f"""<s>[INST] <<SYS>>
+        Extract only the full name from the following CV text. Provide the result in JSON format as shown:
+        {{
+            "Name": "<Full Name>"
+        }}
 
-    CV text:
-    {text}
-    [/INST]</s>""",
+        CV text:
+        {text}
+        [/INST]</s>""",
 
-    "Education": f"""<s>[INST] <<SYS>>
-    Extract only the educational background from the following CV text. Provide the result in JSON format as shown:
-    {{
-        "Education": "<Degrees and Institutions>"
-    }}
+            "Education": f"""<s>[INST] <<SYS>>
+        Extract only the educational background from the following CV text. Provide the result in JSON format as shown:
+        {{
+            "Education": "<Degrees and Institutions>"
+        }}
 
-    CV text:
-    {text}
-    [/INST]</s>""",
+        CV text:
+        {text}
+        [/INST]</s>""",
 
-    "Skills": f"""<s>[INST] <<SYS>>
-    Extract only the key skills from the following CV text. Provide the result in JSON format as shown:
-    {{
-        "Skills": "<Key Skills List>"
-    }}
+            "Skills": f"""<s>[INST] <<SYS>>
+        Extract only the key skills from the following CV text. Provide the result in JSON format as shown:
+        {{
+            "Skills": "<Key Skills List>"
+        }}
 
-    CV text:
-    {text}
-    [/INST]</s>""",
+        CV text:
+        {text}
+        [/INST]</s>""",
 
-    "WorkExperience": f"""<s>[INST] <<SYS>>
-    Extract only the work experience from the following CV text, including job titles, companies, dates, and job details (descriptions of the responsibilities and achievements). Provide the result in JSON format as shown:
-    {{
-        "WorkExperience": "<Job Titles, Companies, Dates, and Job Details>"
-    }}
+            "WorkExperience": f"""<s>[INST] <<SYS>>
+        Extract only the work experience from the following CV text, including job titles, companies, dates, and job details (descriptions of the responsibilities and achievements). Provide the result in JSON format as shown:
+        {{
+            "WorkExperience": "<Job Titles, Companies, Dates, and Job Details>"
+        }}
 
-    CV text:
-    {text}
-    [/INST]</s>""",
+        CV text:
+        {text}
+        [/INST]</s>""",
 
-    "Certifications": f"""<s>[INST] <<SYS>>
-    Extract only the certifications from the following CV text. Provide the result in JSON format as shown:
-    {{
-        "Certifications": "<Certifications and Issuing Organizations>"
-    }}
+            "Certifications": f"""<s>[INST] <<SYS>>
+        Extract only the certifications from the following CV text. Provide the result in JSON format as shown:
+        {{
+            "Certifications": "<Certifications and Issuing Organizations>"
+        }}
 
-    CV text:
-    {text}
-    [/INST]</s>"""
-}
-       for key,prompts in prompt.items():
-         formatted_prompt=prompts.format(text=text) 
-         file_result[key]=self.pipeline(formatted_prompt,temperature=0.000000001)[0]['generated_text']
-       results.append({'filename':file['filename'],'results':file_result})
+        CV text:
+        {text}
+        [/INST]</s>"""
+        }
+       input_data=[{'role':'user','content':prompt}] 
+       result=self.pipeline(input_data,temperature=0.000000001)[0]['generated_text']
+        
+       results.append({'filename':file['filename'],'results':result})
      return results
 
   def creating_json(self, results):
@@ -169,11 +168,9 @@ class CVHiringSystem:
             dict: Dictionary with cleaned field data.
         """
         def clean_field(data, field):
-
-
-            if field in data and 'generated_text' in data[field][0] and 'content' in data[field][0]['generated_text'][1]:
-                content = data[field][0]['generated_text'][1]['content']
-                return content.split(f'"{field}":')[1].strip(' "\n}').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('"', '')
+            if field in data:
+                content = data[field][0].get('generated_text', [{}])[1].get('content', '')
+                return content.split(f'"{field}":')[1].strip(' "\n{}')
             return ""
 
         name = clean_field(cv_info, "Name")
