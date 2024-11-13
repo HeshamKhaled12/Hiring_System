@@ -123,5 +123,5 @@ xxhash==3.5.0
 yarl==1.13.1
 zipp==3.17.0
 streamlit
-qdrant-client==1.12.1
-sentence-transformers==3.3.0
+qdrant-client
+sentence-transformers
