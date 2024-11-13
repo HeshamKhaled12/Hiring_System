@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 aiohappyeyeballs
 aiohttp==3.10.9
 aiosignal==1.3.1
@@ -9,6 +10,8 @@ attrs==24.2.0
 blinker==1.7.0
 certifi==2023.7.22
 cffi==1.17.1
+=======
+>>>>>>> 4313ff3b5f79eee4d756a26cd9986e6aa88af93d
 charset-normalizer==3.3.2
 click==8.1.7
 cloudpickle==3.0.0
@@ -134,17 +137,18 @@ xxhash==3.5.0
 yarl==1.13.1
 zipp==3.17.0
 streamlit
+<<<<<<< HEAD
 transformers
 torch
 torchaudio
 torchvision
 pillow
 streamlit
+=======
+>>>>>>> 4313ff3b5f79eee4d756a26cd9986e6aa88af93d
 qdrant-client
-scipy
-scikit-learn
-numpy
-pandas
-pip
 sentence-transformers
+<<<<<<< HEAD
 pdfplumber
+=======
+>>>>>>> 4313ff3b5f79eee4d756a26cd9986e6aa88af93d
