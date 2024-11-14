@@ -1,61 +1,47 @@
-# CV Hiring System with Embeddings and Qdrant Integration
+# CV Hiring System
 
 ## Description
-
-This project provides an automated CV hiring system that processes and analyzes candidate CVs by extracting key information such as name, education, skills, work experience, and certifications. The system embeds the extracted data into vector representations and stores them in a Qdrant database for efficient similarity search and matching with job descriptions. 
-
-The project uses a pre-trained language model to convert CVs into meaningful vector embeddings and leverages the power of Qdrant for fast and scalable retrieval of candidates based on job requirements.
+The CV Hiring System is an AI-powered solution designed to automate the hiring process by analyzing and matching CVs to job descriptions. This system extracts key information from CVs, embeds them into a vector space, and stores them in a Qdrant database. The system then compares candidate CVs to job descriptions to find the best matches. Built with a focus on efficiency and scalability, it leverages natural language processing (NLP) and machine learning techniques to provide a seamless experience for recruiters.
 
 ## Model Used
-
-- **Embedding Model**: The project uses a pre-trained transformer-based model (e.g., sentence-transformers) to generate embeddings for the text data extracted from CVs. The embeddings capture the semantic meaning of the text, allowing the system to compare candidates' qualifications to job descriptions.
-  
-- **Similarity Search**: The embeddings are stored in Qdrant, an open-source vector database, to perform fast nearest neighbor searches based on cosine similarity, helping recruiters find the best-matched candidates efficiently.
+The project uses the **Sentence-Transformers** model to embed text from CVs. The embeddings are then stored in a Qdrant database for efficient retrieval and comparison. The matching process is based on cosine similarity to match candidates with job descriptions.
 
 ## Requirements
 
-### Computation Power
-- **GPU (Optional but recommended)**: A GPU is highly recommended for fast embedding generation using models like sentence-transformers. The project can run on a CPU but will be slower for large datasets.
-- **RAM**: At least 8GB of RAM to handle multiple CVs and perform embedding generation effectively.
-- **Disk Space**: Depending on the number of CVs and the embeddings, sufficient disk space is required to store data and model files.
-  
-### Software
-- **Python 3.8+**
-- **Required Libraries**: 
-    - `sentence-transformers`
-    - `qdrant-client`
-    - `numpy`
-    - `pdfplumber`
-    - `requests` (for API integration if applicable)
-    - `json` (for data processing)
-    - `torch` (if using models that require PyTorch)
+### Hardware/Software Requirements:
+- **Python 3.7+**
+- **Streamlit** (for the web interface)
+- **Sentence-Transformers** (for embedding generation)
+- **Qdrant** (for storing and querying embeddings)
+- **Pandas** (for data manipulation)
+- **NumPy** (for numerical operations)
+- **pdfplumber** (for extracting text from PDFs)
 
-Install dependencies using the following:
-```bash
-pip install -r requirements.txt
-```
+### Computational Power:
+- **GPU** recommended for faster embedding generation, especially if dealing with large datasets.
+- The model can run on a regular CPU, but performance will be slower for large CV collections.
 
-### Running the Project
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/your-repository-name.git
-   cd your-repository-name
+### How to Run the Project:
+
+1. **Clone the Repository**:
+   ```
+   git clone https://github.com/yourusername/cv-hiring-system.git
    ```
 
-2. Install the required dependencies:
-   ```bash
+2. **Install Dependencies**:
+   Install the required libraries by running the following command in your terminal:
+   ```
    pip install -r requirements.txt
    ```
 
-3. Run the project:
-   ```bash
-   python main.py
+3. **Run the Streamlit App**:
+   Navigate to the project directory and run the Streamlit app:
+   ```
+   streamlit run app.py
    ```
 
-4. The system will process the CVs, generate embeddings, and store them in Qdrant. Afterward, you can match candidates against job descriptions using the API or command line interface.
+4. **Upload CVs**:
+   Once the app is running, you can upload CVs in PDF format. The system will extract the relevant information and store it in the Qdrant database.
 
-## Usage
-
-- **Extract and Embed CVs**: Upload CVs in PDF format, and the system will automatically extract key information and generate embeddings.
-  
-- **Job Description Matching**: Input a job description, and the system will return the top candidates whose CVs are the best match based on the embedded text.
+5. **Match with Job Description**:
+   Enter a job description in the provided input box, and the system will find the top candidates that best match the job requirements.
