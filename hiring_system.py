@@ -1,4 +1,3 @@
-
 import os
 import json
 import pdfplumber 
@@ -168,9 +167,15 @@ class CVHiringSystem:
             dict: Dictionary with cleaned field data.
         """
         def clean_field(data, field):
-            if field in data:
-                content = data[field][0].get('generated_text', [{}])[1].get('content', '')
-                return content.split(f'"{field}":')[1].strip(' "\n{}')
+            if field in data and data[field].get('generated_text'):
+                for entry in data[field][0]['generated_text']:
+                    if entry['role'] == 'assistant':
+                        try:
+                            content= entry['content']
+                            parsed_content = content.split(f'"{field}":')[1].split('\n')[0].strip(' "{}')
+                            return parsed_content
+                        except IndexError:
+                            return ""
             return ""
 
         name = clean_field(cv_info, "Name")
@@ -196,18 +201,21 @@ class CVHiringSystem:
         """
     text_data=[]
     for cv in data:
-      cv_info= cv['results']
-      combined_text=(f"Name: {cv_info.get('Name')}\nEducation: {cv_info.get('Education')}\n"
-                             f"Skills: {cv_info.get('Skills')}\nExperience: {cv_info.get('WorkExperience')}\n"
-                             f"Certifications: {cv_info.get('Certifications')}")
-      text_data.append(combined_text)
+        
+        cv_info= cv['results']
+        cleaned_data=self._extract_cleaned_fields(cv_info)
+        combined_text = (f"Name: {cleaned_data.get('Name')}\nEducation: {cleaned_data.get('Education')}\n"
+                         f"Skills: {cleaned_data.get('Skills')}\nExperience: {cleaned_data.get('WorkExperience')}\n"
+                         f"Certifications: {cleaned_data.get('Certifications')}")
+        text_data.append(combined_text)
     embeddings= np.array(self.embedding_model.encode(text_data,show_progress_bar=True))
     vector_config=VectorParams(size=embeddings.shape[1],distance='Cosine')
-    self.qdrant_client.recreate_collection(collection_name=self.collection_name,vector_config=vector_config)
+    self.qdrant_client.recreate_collection(collection_name=self.collection_name,vectors_config=vector_config)
 
     for idx,embedding in enumerate(embeddings):
-      point=PointStruct(id=idx, vector=embedding.tolist(), payload={'text':text_data[idx]})
-      self.qdrant_client.upsert(collection_name=self.collection_name,points=[point])
+         
+        point=PointStruct(id=idx, vector=embedding.tolist(), payload={'text':text_data[idx]})
+        self.qdrant_client.upsert(collection_name=self.collection_name,points=[point])
 
   def match_candidates(self,job_description):
     """
